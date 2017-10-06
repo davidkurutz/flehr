@@ -1,0 +1,73 @@
+/*
+ * This is a manifest file that'll be compiled into application.css, which will include all the files
+ * listed below.
+ *
+ * Any CSS and SCSS file within this directory, lib/assets/stylesheets, or any plugin's
+ * vendor/assets/stylesheets directory can be referenced here using a relative path.
+ *
+ * You're free to add application-wide styles to this file and they'll appear at the bottom of the
+ * compiled file so the styles you add here take precedence over styles defined in any other CSS/SCSS
+ * files in this directory. Styles in this file should be added after the last require_* statement.
+ * It is generally better to create a new file per style scope.
+ *
+ */
+
+@import 'bootstrap';
+
+html {
+  height: 100%;
+}
+
+body, .full-height {
+  height: 100%;
+}
+
+.main {
+  margin-top: 10px;
+  height: 95%;
+}
+
+.conversation {
+  border: 1px solid green;
+  margin: 5px 0;
+  font-size: 40px;
+  padding: 0 10px;
+  border-radius: 5px
+}
+
+.conversations-column, .message-log {
+  border: 1px solid black;
+  height: 100%;
+  background-color: white;
+}
+
+.conversations-column {
+  border-top-left-radius: 10px;
+  border-bottom-left-radius: 10px;
+}
+
+.message-log {
+  border-top-right-radius: 10px;
+  border-bottom-right-radius: 10px;
+}
+
+.inbound {
+  text-align: left;
+  color: red;
+}
+
+.outbound {
+  text-align: right;
+  color: green;
+}
+
+.chat-form {
+  position: absolute;
+  bottom: 5px;
+  box-sizing: border-box;
+  width: 95%;
+}
+
+.chat-form input {
+  width: 100%;
+}

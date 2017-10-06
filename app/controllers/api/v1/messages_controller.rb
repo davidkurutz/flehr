@@ -15,7 +15,8 @@ module Api
       private
 
       def message_params
-        params.permit(:body, :user_id, :conversation_id)
+        params['sender_id'] = params['user_id']
+        params.permit(:body, :sender_id, :conversation_id)
       end
     end   
   end

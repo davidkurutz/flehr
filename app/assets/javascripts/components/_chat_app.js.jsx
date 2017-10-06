@@ -8,6 +8,8 @@ class ChatApp extends React.Component {
       conversationId: null
     }
     this.showConversation = this.showConversation.bind(this)
+    this.handleSubmit = this.handleSubmit.bind(this)
+    this.appendMessage = this.appendMessage.bind(this)
   }
 
   showConversation(e) {
@@ -22,6 +24,20 @@ class ChatApp extends React.Component {
     $.getJSON("/api/v1/users/" + this.props.userId + "/conversations", (response) => { this.setState({ conversations: response }) })
   }
 
+  handleSubmit(e) {
+    e.preventDefault();
+    let data = $(e.target).serialize()
+    let url = "/api/v1/users/" + this.props.userId + "/conversations/" + this.state.conversationId + "/messages"
+    $.post(url, data, this.appendMessage)
+    $(e.target)[0].reset();
+  }
+
+  appendMessage(json) {
+    let messages = this.state.messages
+    messages.push(json)
+    this.setState({ messages: messages });
+  }
+
   render() {
     return ( 
       <div className="main container">
@@ -30,7 +46,7 @@ class ChatApp extends React.Component {
         </div>
         <div className="row full-height">
           <ConversationsColumn username={this.props.username} conversations={this.state.conversations} onConversationClicked={this.showConversation}/>
-          <MessageLog messages={this.state.messages} userId={this.props.userId} conversationId={this.state.conversationId}/>
+          <MessageLog handleSubmit={this.handleSubmit} messages={this.state.messages} userId={this.props.userId} conversationId={this.state.conversationId}/>
         </div>
       </div>
     ); 

@@ -1,6 +1,6 @@
 function MessageLog(props) {
   let messages = props.messages.map(function(m, idx) {
-    let direction = m.user_id === props.userId ? 'outbound' : 'inbound'
+    let direction = m.sender_id === props.userId ? 'outbound' : 'inbound'
     return <Message body={m.body} key={idx} direction={direction} />
   })
 
@@ -9,7 +9,7 @@ function MessageLog(props) {
     return ( 
       <div className='col-sm-9 message-log'>
         {messages}
-        <ChatInput url={url} />
+        <ChatInput handleSubmit={props.handleSubmit}/>
       </div>
     );
   } else {

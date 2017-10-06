@@ -1,6 +1,6 @@
 function ChatInput(props) {
   return (
-    <form className="chat-form" method="post" action={props.url}>
+    <form onSubmit={props.handleSubmit} className="chat-form" method="post" action="#">
       <input type="text" name="body" id="body"/>
     </form>
   )

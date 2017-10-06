@@ -70,7 +70,7 @@ RSpec.describe 'Messages API', type: :request do
       end
 
       it 'returns a validation failure message' do
-        expect(response.body).to match(/Validation failed: Sender must exist, Recipient must exist/)
+        expect(response.body).to match(/Validation failed/)
       end
     end
   end

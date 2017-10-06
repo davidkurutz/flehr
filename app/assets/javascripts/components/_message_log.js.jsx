@@ -9,7 +9,10 @@ function MessageLog(props) {
     return ( 
       <div className='col-sm-9 message-log'>
         {messages}
-        <ChatInput handleSubmit={props.handleSubmit}/>
+        <ChatInput 
+          handleSubmit={props.handleSubmit}
+          messageRecipient={props.messageRecipient}
+        />
       </div>
     );
   } else {

@@ -8,8 +8,8 @@ module Api
       end
 
       def create
-        conversation = Conversation.create!(convo_params)
-        json_response(conversation, :created)
+        conversation = Conversation.create!(convo_params.merge({"sender_id" => params[:user_id]}))
+        json_response(conversation.as_json(include: [:recipient, :sender]), :created)
       end
 
       def show
@@ -20,7 +20,7 @@ module Api
       private
 
       def convo_params
-        params.permit(:sender_id, :recipient_id)
+        params.permit(:recipient_id)
       end
     end
   end

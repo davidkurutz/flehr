@@ -3,7 +3,7 @@ module Api
     class ConversationsController < ApplicationController
       def index
         user = User.find(params[:user_id])
-        conversations = Conversation.involving(user)
+        conversations = user.conversations
         json_response(conversations.as_json(include: [:recipient, :sender]))
       end
 

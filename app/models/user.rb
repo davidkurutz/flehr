@@ -1,4 +1,6 @@
 class User < ActiveRecord::Base
-  has_many :conversations, :foreign_key => :sender_id
+  def conversations
+    Conversation.where("sender_id = ? OR recipient_id = ?", self.id, self.id )
+  end
   validates_presence_of :username
 end

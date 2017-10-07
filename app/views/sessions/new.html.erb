@@ -1,9 +1,9 @@
-<div class="well">
+<div class="well login">
   <%= form_tag '/login' do %>
     <div class="control-group">
       <%= label_tag :username %>
       <%= text_field_tag :username, params[:username] || '' %>
     </div>
-    <%= submit_tag "Login", class: 'btn btn-success' %>
+    <%= submit_tag "Login", class: 'btn btn-default login-button' %>
   <% end %>
 </div>

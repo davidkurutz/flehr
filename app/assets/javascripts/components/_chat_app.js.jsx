@@ -78,7 +78,7 @@ class ChatApp extends React.Component {
   }
 
   usersURL(id) {
-    let url =  "/api/v1/users/"
+    let url =  "/api/v1/users"
     if (id) {
       url += "/" + id
     }

@@ -8,8 +8,8 @@ RSpec.describe 'Users API', type: :request do
     before { get '/api/v1/users' }
 
     it 'returns users' do
-      expect(json).not_to be_empty
-      expect(json.size).to eq(10)
+      expect(json['data']).not_to be_empty
+      expect(json['data'].size).to eq(10)
     end
 
     it 'returns status code 200' do
@@ -22,8 +22,8 @@ RSpec.describe 'Users API', type: :request do
 
     context 'when the record exists' do
       it 'returns the user' do
-        expect(json).not_to be_empty
-        expect(json['id'].to_i).to eq(user_id)
+        expect(json['data']).not_to be_empty
+        expect(json['data']['id'].to_i).to eq(user_id)
       end
 
       it 'returns status code 200' do
@@ -46,12 +46,14 @@ RSpec.describe 'Users API', type: :request do
 
   describe 'POST /api/v1/users' do
     let(:valid_attributes) { { username: 'The Undertaker' }}
-
+    let(:repeated_attributes) { { username: 'Brock' }}
+    let!(:brock_lesnar) { create_list(:brock, 1)}
+    
     context 'when the request is valid' do
       before { post '/api/v1/users', params: valid_attributes }
 
       it 'creates a user' do
-        expect(json['username']).to eq('The Undertaker')
+        expect(json['data']['username']).to eq('The Undertaker')
       end
 
       it 'returns a 201 status code' do
@@ -59,7 +61,7 @@ RSpec.describe 'Users API', type: :request do
       end
     end
 
-    context 'when the request is invalid' do
+    context 'when the request is empty' do
       before { post '/api/v1/users', params: {}}
       it 'returns a 422 status code' do
         expect(response).to have_http_status(422)
@@ -67,6 +69,17 @@ RSpec.describe 'Users API', type: :request do
 
       it 'returns a validation failure message' do
         expect(response.body).to match(/Validation failed: Username can't be blank/)
+      end
+    end
+
+    context 'when the username is already taken' do
+      before { post '/api/v1/users', params: repeated_attributes }
+      it 'returns a 422 status code' do
+        expect(response).to have_http_status(422)
+      end
+
+      it 'returns a validation failure message' do
+        expect(response.body).to match(/Validation failed: Username has already been taken/)
       end
     end
   end

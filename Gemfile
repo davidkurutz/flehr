@@ -10,7 +10,6 @@ end
 gem 'rails', '~> 5.1.4'
 gem 'react-rails'
 gem 'bootstrap'
-gem 'pry'
 gem 'jquery-rails'
 # Use sqlite3 as the database for Active Record
 gem 'sqlite3'

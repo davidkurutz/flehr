@@ -13,15 +13,14 @@ A REST API for a chat application built in Rails & a front end chat client built
 	Rails ~> 5.1.4
 	Redis ~> 3.0
 
-###Setup
+### Setup
 #### Development 
 	git clone git@github.com:davidkurutz/flehr.git
 	cd flehr
 	bundle install
 	rake db:migrate
 	rails s
-	
---
+
 # API Documentation
 
 ## Resources

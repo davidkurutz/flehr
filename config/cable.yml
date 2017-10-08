@@ -8,4 +8,4 @@ test:
 production:
   adapter: redis
   url: redis://localhost:6379/1
-  channel_prefix: grailed_chat_production
+  channel_prefix: flehr_production

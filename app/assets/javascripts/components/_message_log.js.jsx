@@ -7,8 +7,10 @@ function MessageLog(props) {
   if(props.conversationId !== null) {
     let url = "/api/v1/users/" + props.userId + "/conversations/" + props.conversationId + "/messages"
     return ( 
-      <div className='col-sm-9 message-log'>
-        {messages}
+      <div className='messages col-sm-9'>
+        <div className='message-log'>
+          {messages}
+        </div>
         <ChatInput 
           handleSubmit={props.handleSubmit}
           messageRecipient={props.messageRecipient}
@@ -17,7 +19,9 @@ function MessageLog(props) {
     );
   } else {
     return (
-      <div className='col-sm-9 message-log'>
+      <div className='messages col-sm-9'>
+        <div className='message-log'>
+        </div>
       </div>
     )
   }

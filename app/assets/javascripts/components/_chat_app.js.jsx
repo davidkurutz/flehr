@@ -13,6 +13,7 @@ class ChatApp extends React.Component {
     this.createConversation = this.createConversation.bind(this)
     this.appendConversation = this.appendConversation.bind(this)
     this.filteredUsers = this.filteredUsers.bind(this)
+    this.scrollChat = this.scrollChat.bind(this)
   }
 
   createConversation(e) {
@@ -23,11 +24,11 @@ class ChatApp extends React.Component {
 
   appendConversation(json) {
     let conversations = this.state.conversations;
-    conversations.push(json);
+    conversations.push(json.data);
     this.setState({ 
       conversations: conversations,
-      conversationId: json.id,
-      messageRecipient: json.recipient.username,
+      conversationId: json.data.id,
+      messageRecipient: json.data.recipient.username,
       messages: []
     })
   }
@@ -42,7 +43,7 @@ class ChatApp extends React.Component {
     })
 
     return this.state.users.filter(function(user) {
-      return excludedUsers.indexOf(user.username) === -1;
+      return excludedUsers.indexOf(user.username) === -1 && user.username !== username;
     })
   }
 
@@ -51,7 +52,7 @@ class ChatApp extends React.Component {
     let username = $(e.target).html()
     $.getJSON(this.conversationsURL(conversationId), (response) => { 
       this.setState({
-        messages: response.messages,
+        messages: response.data.messages,
         conversationId: +conversationId,
         messageRecipient: username 
       })
@@ -59,8 +60,8 @@ class ChatApp extends React.Component {
   };
 
   componentDidMount() {
-    $.getJSON(this.usersURL(), (response) => { this.setState({ users: response }) })
-    $.getJSON(this.conversationsURL(), (response) => { this.setState({ conversations: response }) })
+    $.getJSON(this.usersURL(), (response) => { this.setState({ users: response.data }) })
+    $.getJSON(this.conversationsURL(), (response) => { this.setState({ conversations: response.data }) })
   }
 
   handleSubmit(e) {
@@ -73,8 +74,9 @@ class ChatApp extends React.Component {
 
   appendMessage(json) {
     let messages = this.state.messages
-    messages.push(json)
+    messages.push(json.data)
     this.setState({ messages: messages });
+    this.scrollChat()
   }
 
   usersURL(id) {
@@ -93,12 +95,18 @@ class ChatApp extends React.Component {
     return url
   }
 
+  scrollChat() {
+    let messageLog = $('.message-log')[0]
+    messageLog.scrollTop = messageLog.scrollHeight - messageLog.clientHeight;
+  }
+
   render() {
     let users = this.filteredUsers(this.props.username)
     return ( 
-      <div className="main container">
+      <div className="main2 container">
         <div className="row header">
           <h5>Logged in as {this.props.username}</h5>
+          <LogOutButton />
         </div>
         <div className="row full-height">
           <ConversationsColumn

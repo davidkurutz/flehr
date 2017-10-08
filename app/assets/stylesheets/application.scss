@@ -12,80 +12,123 @@
  *
  */
 
+
 @import 'bootstrap';
 
-html {
+$border-color: #ddd;
+$blue: #7ED1F4;
+$darkblue: #4194B7;
+$text-color: #555;
+$turquoise: #0DCBA7;
+$orange: #FF801C;
+
+html, body, .main2 {
   height: 100%;
 }
 
-body, .full-height {
-  height: 100%;
+.container {
+  padding-left: 0;
+  padding-right: 0;
+}
+
+.full-height {
+  height: 550px;
 }
 
 .main {
-  margin-top: 10px;
-  height: 95%;
+  margin: 20px auto 0 auto;
+  height: 600px;
+  position: relative;
 }
 
 .conversation {
-  border: 1px solid #bbb;
+  border: 1px solid $border-color;
   margin: 5px 0;
   font-size: 40px;
   padding: 0 10px;
   border-radius: 10px;
-  box-shadow: -1px 1px 3px #bbb;
+  box-shadow: -1px 1px 1px $border-color;
+  text-align: center;
+  color: $text-color;
 }
 
 .conversation select {
   width: 100%;
   font-size: 20px;
+  border: 1px solid $border-color;
+  color: $text-color;
 }
 
 .conversations-column, .message-log {
-  border: 1px solid black;
+  border: 1px solid $border-color;
   height: 100%;
   background-color: white;
   position: relative;
+  border-radius: 10px;
 }
 
-.conversations-column {
-  border-top-left-radius: 10px;
-  border-bottom-left-radius: 10px;
+.messages {
+  height: 500px;
 }
 
 .message-log {
-  border-top-right-radius: 10px;
-  border-bottom-right-radius: 10px;
+  overflow: scroll;
+  padding: 15px;
+}
+
+.inbound, .outbound {
+   margin: 5px 0;
 }
 
 .inbound {
   text-align: left;
-  color: red;
+  color: $text-color;
 }
 
 .outbound {
   text-align: right;
-  color: green;
+  color: $darkblue;
+}
+
+.inbound span, .outbound span {
+  display: inline-block;
+  padding: 5px;
+  border-radius: 5px;
+  color: white;
+}
+
+.inbound span {
+  background-color: $orange;
+}
+
+.outbound span {
+  background-color: $turquoise;
 }
 
 .chat-form {
-  position: absolute;
+  margin-top: 15px;
   bottom: 5px;
-  box-sizing: border-box;
-  width: 95%;
+  width: 100%;
 }
 
 .chat-form input {
   width: 100%;
   padding: 5px;
-  border: 1px solid #bbb;
+  border: 1px solid $border-color;
   border-radius: 5px;
-  box-shadow: -1px 1px 3px #ccc;
+  box-shadow: -1px 1px 3px $border-color;
 }
 
 .active {
-  background: #7ED1F4;
+  background: $blue;
   color: white;
+  border: 1px solid $blue;
+  box-shadow: -1px 1px 3px $darkblue;
+}
+
+h5 {
+  display: inline-block;
+  color: $text-color;
 }
 
 .button-container {
@@ -95,27 +138,39 @@ body, .full-height {
   left: 5px;
   padding: 10px;
 }
+.login-button, .logout-button, .new-conversation{
+  background: $blue;
+  color: white;
+  width: 100%;
+  margin: 20px 0 0 0;
+}
+
+.logout-button {
+  width: 100px;
+  display: inline-block;
+  vertical-align: top;
+  margin: 0 0 20px 20px;
+  color: white
+}
+
+.logout-button:hover {
+  color: white;
+}
 
 .new-conversation {
   display: block;
   width: 100%;
   margin: 0 auto;
-  background: #7ED1F4;
-  color: white;
 }
 
 .login form {
   width: 300px;
   margin: 30px auto;
   padding: 20px;
-  border: 1px solid #bbb;
+  border: 1px solid $border-color;
   border-radius: 10px;
-  box-shadow: -1px 1px 3px #ccc;
+  box-shadow: -1px 1px 3px $border-color;
 }
 
-.login-button {
-  background: #7ED1F4;
-  color: white;
-  width: 100%;
-  margin: 20px 0 0 0;
-}
+
+

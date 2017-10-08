@@ -1,5 +1,6 @@
 module Response
-  def json_response(obj, status = :ok)
-    render json: obj, status: status
+  def json_envelope(obj, status = :ok)
+    result = { 'data': obj }
+    render json: result , status: status
   end
 end

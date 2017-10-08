@@ -3,17 +3,17 @@ module Api
     class UsersController < ApplicationController
       def index
         users = User.all
-        json_response(users)
+        json_envelope(users)
       end
 
       def create
         user = User.create!(user_params)
-        json_response(user, :created)
+        json_envelope(user, :created)
       end
 
       def show
         user = User.find(params[:id])
-        json_response(user)
+        json_envelope(user)
       end
 
       private

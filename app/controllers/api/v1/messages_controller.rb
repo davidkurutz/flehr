@@ -2,10 +2,8 @@ module Api
   module V1
     class MessagesController < ApplicationController
       def create
-        conversation = Conversation.find_by(id: params[:conversation_id])
-        message = conversation.messages.build(message_params)
-        message.save
-        json_response(message)
+        message = Message.create!(message_params)
+        json_envelope(message.as_json, :created)
       end
 
       private

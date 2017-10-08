@@ -4,17 +4,17 @@ module Api
       def index
         user = User.find(params[:user_id])
         conversations = user.conversations
-        json_response(conversations.as_json(include: [:recipient, :sender]))
+        json_envelope(conversations.as_json(include: [:recipient, :sender]))
       end
 
       def create
         conversation = Conversation.create!(convo_params.merge({"sender_id" => params[:user_id]}))
-        json_response(conversation.as_json(include: [:recipient, :sender]), :created)
+        json_envelope(conversation.as_json(include: [:recipient, :sender]), :created)
       end
 
       def show
         conversation = Conversation.find(params[:id])
-        json_response(conversation.as_json(include: [:messages, :recipient, :sender]))
+        json_envelope(conversation.as_json(include: [:messages, :recipient, :sender]))
       end
 
       private

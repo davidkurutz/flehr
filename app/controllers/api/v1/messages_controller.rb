@@ -2,7 +2,13 @@ module Api
   module V1
     class MessagesController < ApplicationController
       def create
-        message = Message.create!(message_params)
+        message = Message.new(message_params)
+
+        if message.save!
+          room = "MessagesForConversation" + "#{message_params[:conversation_id]}"
+          json = socket_envelope(message.as_json)
+          ActionCable.server.broadcast room, json
+        end
         json_envelope(message.as_json, :created)
       end
 

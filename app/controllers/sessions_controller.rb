@@ -13,6 +13,7 @@ class SessionsController < ApplicationController
 
   def destroy
     session[:user_id] = nil
+    cookies[:user_id] = nil
     redirect_to root_path
   end
 
@@ -20,6 +21,7 @@ class SessionsController < ApplicationController
 
   def login_user!(user)
     session[:user_id] = user.id
+    cookies[:user_id] = user.id
     redirect_to root_path
   end
 end

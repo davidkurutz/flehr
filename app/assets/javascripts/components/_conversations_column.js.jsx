@@ -1,14 +1,18 @@
 function ConversationsColumn(props) {
   conversations = props.conversations.map(function(c, idx) {
-    let other = c.recipient.username === props.username ? c.sender.username : c.recipient.username
-    let activeClass = +c.id === +props.conversationId ? 'active': ''
+    let other = c.recipient.username === props.username ? c.sender.username : c.recipient.username;
+    let activeClass = +c.id === +props.conversationId ? 'active': '';
+    let alertClass = +c.id === +props.messageAlertId ? 'new-message-alert': '';
+    let className = activeClass ? activeClass + ' ' + alertClass : alertClass;
+
     return (<Conversation
               id={c.id}
               key={idx}
               body={c.body}
               recipient={other}
               onConversationClicked={props.onConversationClicked}
-              className={activeClass}
+              receiveMessage={props.receiveMessage}
+              className={className}
             />)
   })
 

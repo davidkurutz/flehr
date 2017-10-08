@@ -1,5 +1,5 @@
 # Flehr: a Chat API and RealTime Chat Client
-A REST API for a chat application built in Rails, a front end chat client built in React, using real-time chat communications with ActionCable/WebSockets 
+A REST API for a chat application built in Rails & a front end chat client built in React, using real-time chat communications with ActionCable/WebSockets 
 
 ### Features
 
@@ -15,8 +15,8 @@ A REST API for a chat application built in Rails, a front end chat client built 
 
 ###Setup
 #### Development 
-	git clone url...
-	cd directory...
+	git clone git@github.com:davidkurutz/flehr.git
+	cd flehr
 	bundle install
 	rake db:migrate
 	rails s

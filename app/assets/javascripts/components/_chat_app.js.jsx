@@ -13,7 +13,7 @@ class ChatApp extends React.Component {
     this.appendConversation = this.appendConversation.bind(this)
     this.receiveConversation = this.receiveConversation.bind(this)
     this.receiveMessage = this.receiveMessage.bind(this)
-    this.handleSubmit = this.handleSubmit.bind(this)
+    this.submitMessage = this.submitMessage.bind(this)
     this.filteredUsers = this.filteredUsers.bind(this)
     this.scrollChat = this.scrollChat.bind(this)
   }
@@ -89,7 +89,7 @@ class ChatApp extends React.Component {
     $.getJSON(this.conversationsURL(), (response) => { this.setState({ conversations: response.data }) })
   }
 
-  handleSubmit(e) {
+  submitMessage(e) {
     e.preventDefault();
     let data = $(e.target).serialize()
     let url = this.conversationsURL(this.state.conversationId) + "/messages"
@@ -152,7 +152,7 @@ class ChatApp extends React.Component {
             messageAlertId={this.state.messageAlertId}
           />
           <MessageLog
-            handleSubmit={this.handleSubmit}
+            submitMessage={this.submitMessage}
             messages={this.state.messages}
             userId={this.props.userId} 
             conversationId={this.state.conversationId}

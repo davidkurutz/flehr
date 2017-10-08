@@ -12,7 +12,7 @@ function MessageLog(props) {
           {messages}
         </div>
         <ChatInput 
-          handleSubmit={props.handleSubmit}
+          submitMessage={props.submitMessage}
           messageRecipient={props.messageRecipient}
         />
       </div>

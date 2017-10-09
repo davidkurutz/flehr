@@ -7,5 +7,5 @@ test:
 
 production:
   adapter: redis
-  url: redis://localhost:6379/1
+  url: redis://h:p59d1a9a910e4bab94ffb26bbb003fa687a91a3dd7e70dd64a165ae1e8de0fe38@ec2-34-195-166-91.compute-1.amazonaws.com:64369
   channel_prefix: flehr_production

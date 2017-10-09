@@ -3,11 +3,7 @@ class SessionsController < ApplicationController
 
   def create
     user = User.find_by username: params[:username]
-
-    unless user
-      user = User.create(username: params[:username])
-    end
-    
+    user ||= User.create(username: params[:username])
     login_user!(user)
   end
 

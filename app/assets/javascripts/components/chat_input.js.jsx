@@ -1,22 +1,23 @@
 class ChatInput extends React.Component {
   constructor(props) {
-    super(props)
+    super(props);
   }
 
   componentDidMount() {
-    $('input').focus()
+    $("input").focus();
   }
 
   componentWillReceiveProps() {
-    $('input').focus()
+    $("input").focus();
   }
 
   render() {
-    let placeholder = "Chat with " + this.props.messageRecipient + "...";
+    const placeholder = "Chat with " + this.props.messageRecipient + "...";
+
     return (
       <form onSubmit={this.props.submitMessage} className="chat-form" method="post" action="#">
         <input type="text" name="body" id="body" placeholder={placeholder} />
       </form>
-    )
+    );
   }
 }

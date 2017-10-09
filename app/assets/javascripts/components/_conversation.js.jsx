@@ -4,16 +4,18 @@ class Conversation extends React.Component {
   }
 
   componentWillMount() {
-    let room = "MessagesForConversation" + this.props.id
-    App.cable.subscriptions.create({channel: 'MessagesChannel', room: room }, {
+    const room = "MessagesForConversation" + this.props.id;
+
+    App.cable.subscriptions.create({ channel: "MessagesChannel", room: room }, {
       received: function(data) {
-        this.props.receiveMessage(data)
+        this.props.receiveMessage(data);
       }.bind(this)
-    })
+    });
   }
 
   render() {
-    let classString = "conversation" + " " + this.props.className;
+    const classString = "conversation" + " " + this.props.className;
+
     return (
       <div
         className={classString}

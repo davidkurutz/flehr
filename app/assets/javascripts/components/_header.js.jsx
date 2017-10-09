@@ -4,5 +4,5 @@ function Header(props) {
       <h5>Logged in as {props.username}</h5>
       <LogOutButton />
     </div>
-  )
+  );
 }

@@ -5,7 +5,7 @@ module Api
         message = Message.new(message_params)
 
         if message.save!
-          room = "MessagesForConversation" + "#{message_params[:conversation_id]}"
+          room = "MessagesForConversation" + message_params[:conversation_id].to_s
           json = socket_envelope(message.as_json)
           ActionCable.server.broadcast room, json
         end
@@ -19,7 +19,6 @@ module Api
         filtered['sender_id'] = params['user_id']
         filtered.permit(:body, :sender_id, :conversation_id)
       end
-    end   
+    end
   end
 end
-

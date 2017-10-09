@@ -8,10 +8,10 @@ module Api
       end
 
       def create
-        conversation = Conversation.new(convo_params.merge({"sender_id" => params[:user_id]}))
+        conversation = Conversation.new(convo_params.merge("sender_id" => params[:user_id]))
 
         if conversation.save!
-          room = "ConversationsForUser" + "#{convo_params[:recipient_id]}"
+          room = "ConversationsForUser" + convo_params[:recipient_id].to_s
           json = socket_envelope(conversation.as_json(include: [:recipient, :sender]))
           ActionCable.server.broadcast room, json
         end

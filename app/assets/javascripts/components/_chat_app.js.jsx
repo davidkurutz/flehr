@@ -1,138 +1,155 @@
 class ChatApp extends React.Component {
   constructor(props) {
-    super(props)
+    super(props);
     this.state = {
-      users: [],
-      conversations: [],
-      messages: [],
       conversationId: null,
-      messageAlertId: null
-    }
-    this.showConversation = this.showConversation.bind(this)
-    this.createConversation = this.createConversation.bind(this)
-    this.appendConversation = this.appendConversation.bind(this)
-    this.receiveConversation = this.receiveConversation.bind(this)
-    this.receiveMessage = this.receiveMessage.bind(this)
-    this.submitMessage = this.submitMessage.bind(this)
-    this.filteredUsers = this.filteredUsers.bind(this)
-    this.scrollChat = this.scrollChat.bind(this)
+      conversations: [],
+      messageAlertId: null,
+      messages: [],
+      users: []
+    };
+    this.showConversation = this.showConversation.bind(this);
+    this.createConversation = this.createConversation.bind(this);
+    this.appendConversation = this.appendConversation.bind(this);
+    this.receiveConversation = this.receiveConversation.bind(this);
+    this.receiveMessage = this.receiveMessage.bind(this);
+    this.submitMessage = this.submitMessage.bind(this);
+    this.filteredUsers = this.filteredUsers.bind(this);
+    this.scrollChat = this.scrollChat.bind(this);
   }
 
   createConversation(e) {
-    e.preventDefault()
-    let data = $(e.target).serialize();
-    $.post(this.conversationsURL(), data, this.appendConversation)
+    e.preventDefault();
+    const data = $(e.target).serialize();
+
+    $.post(this.conversationsURL(), data, this.appendConversation);
   }
 
   appendConversation(json) {
-    let conversations = this.state.conversations;
+    const conversations = this.state.conversations;
+
     conversations.push(json.data);
-    this.setState({ 
+    this.setState({
       conversations: conversations,
       conversationId: json.data.id,
       messageRecipient: json.data.recipient.username,
       messages: []
-    })
+    });
   }
 
   receiveConversation(json) {
-    let conversations = this.state.conversations;
+    const conversations = this.state.conversations;
+
     conversations.push(json.data);
-    this.setState({ 
-      conversations: conversations
-    })
+    this.setState({ conversations: conversations });
   }
 
   filteredUsers(username) {
-    let convoUsers = this.state.conversations.map(function(convo) {
-      return [convo.recipient.username, convo.sender.username]
+    const convoUsers = this.state.conversations.map(function(convo) {
+      return [ convo.recipient.username, convo.sender.username ];
     });
 
-    let excludedUsers = $.map(convoUsers, function(n) {
-      return n
-    })
+    const excludedUsers = $.map(convoUsers, function(n) {
+      return n;
+    });
 
     return this.state.users.filter(function(user) {
       return excludedUsers.indexOf(user.username) === -1 && user.username !== username;
-    })
+    });
   }
 
   showConversation(e) {
-    let conversationId = ($(e.target).attr('data-id'));
-    let username = $(e.target).html();
-    let messageAlertId = +conversationId === this.state.messageAlertId ? null : this.state.messageAlertId
-    $.getJSON(this.conversationsURL(conversationId), (response) => { 
+    const conversationId = $(e.target).attr("data-id"),
+          username = $(e.target).html(),
+          messageAlertId = +conversationId === this.state.messageAlertId ? null : this.state.messageAlertId;
+
+    $.getJSON(this.conversationsURL(conversationId), (response) => {
       this.setState({
-        messages: response.data.messages,
         conversationId: +conversationId,
+        messageAlertId: messageAlertId,
         messageRecipient: username,
-        messageAlertId: messageAlertId
-      })
-      this.scrollChat()
-    })
-  };
+        messages: response.data.messages
+      });
+      this.scrollChat();
+    });
+  }
 
   componentWillMount() {
     this.App = {};
-    let room = "ConversationsForUser" + this.props.userId
-    App.cable = ActionCable.createConsumer();
-    App.cable.subscriptions.create({channel: 'ConversationsChannel', room: room }, {
+    const room = "ConversationsForUser" + this.props.userId;
+
+    this.App.cable = ActionCable.createConsumer();
+    this.App.cable.subscriptions.create({
+      channel: "ConversationsChannel",
+      room: room
+    }, {
       received: function(data) {
-        this.receiveConversation(data)
+        this.receiveConversation(data);
       }.bind(this)
-    })
+    });
   }
 
   componentDidMount() {
-    $.getJSON(this.usersURL(), (response) => { this.setState({ users: response.data }) })
-    $.getJSON(this.conversationsURL(), (response) => { this.setState({ conversations: response.data }) })
+    $.getJSON(this.usersURL(), (response) => {
+      this.setState({ users: response.data });
+    });
+
+    $.getJSON(this.conversationsURL(), (response) => {
+      this.setState({ conversations: response.data });
+    });
   }
 
   submitMessage(e) {
     e.preventDefault();
-    let data = $(e.target).serialize()
-    let url = this.conversationsURL(this.state.conversationId) + "/messages"
-    $.post(url, data)
-    $(e.target)[0].reset();
+    const data = $(e.target).serialize(),
+          url = this.conversationsURL(this.state.conversationId) + "/messages";
+
+    $.post(url, data);
+    $(e.target)[ 0 ].reset();
   }
 
   receiveMessage(json) {
-    if(this.state.conversationId === json.data.conversation_id) {
-      let messages = this.state.messages
-      messages.push(json.data)
-      this.setState({
-        messages: messages
-      })
-      this.scrollChat()
+    if (this.state.conversationId === json.data.conversation_id) {
+      const messages = this.state.messages;
+
+      messages.push(json.data);
+      this.setState({ messages: messages });
+      this.scrollChat();
     } else {
-      this.setState({ messageAlertId: json.data.conversation_id })
+      this.setState({ messageAlertId: json.data.conversation_id });
     }
   }
 
   usersURL(id) {
-    let url =  "/api/v1/users"
+    let url = "/api/v1/users";
+
     if (id) {
-      url += "/" + id
+      url += "/" + id;
     }
-    return url
+
+    return url;
   }
 
   conversationsURL(id) {
     let url = this.usersURL(this.props.userId) + "/conversations";
+
     if (id) {
-      url += "/" + id
+      url += "/" + id;
     }
-    return url
+
+    return url;
   }
 
   scrollChat() {
-    let messageLog = $('.message-log')[0]
+    const messageLog = $(".message-log")[0];
+
     messageLog.scrollTop = messageLog.scrollHeight - messageLog.clientHeight;
   }
 
   render() {
-    let users = this.filteredUsers(this.props.username)
-    return ( 
+    const users = this.filteredUsers(this.props.username);
+
+    return (
       <div className="main2 container">
         <Header username={this.props.username} />
         <div className="row full-height">
@@ -149,12 +166,12 @@ class ChatApp extends React.Component {
           <MessageLog
             submitMessage={this.submitMessage}
             messages={this.state.messages}
-            userId={this.props.userId} 
+            userId={this.props.userId}
             conversationId={this.state.conversationId}
             messageRecipient={this.state.messageRecipient}
           />
         </div>
       </div>
-    ); 
+    );
   }
 }

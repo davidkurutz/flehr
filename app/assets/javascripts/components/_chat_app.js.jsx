@@ -81,7 +81,6 @@ class ChatApp extends React.Component {
         this.receiveConversation(data)
       }.bind(this)
     })
-    window.App = App
   }
 
   componentDidMount() {
@@ -106,7 +105,6 @@ class ChatApp extends React.Component {
       })
       this.scrollChat()
     } else {
-      console.log(json.data.conversation_id)
       this.setState({ messageAlertId: json.data.conversation_id })
     }
   }
@@ -136,10 +134,7 @@ class ChatApp extends React.Component {
     let users = this.filteredUsers(this.props.username)
     return ( 
       <div className="main2 container">
-        <div className="row header">
-          <h5>Logged in as {this.props.username}</h5>
-          <LogOutButton />
-        </div>
+        <Header username={this.props.username} />
         <div className="row full-height">
           <ConversationsColumn
             username={this.props.username}

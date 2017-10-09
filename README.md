@@ -14,7 +14,7 @@ A REST API for a chat application built in Rails & a front end chat client built
 	Redis ~> 3.0
 
 ### Setup
-#### Development 
+
 	git clone git@github.com:davidkurutz/flehr.git
 	cd flehr
 	bundle install
